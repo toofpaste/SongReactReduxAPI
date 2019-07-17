@@ -13,6 +13,20 @@ describe('Karaoke App', () => {
     it('Should accept and return initial state.', () => {
       expect(lyricChangeReducer(initialState.songsById, { type: null })).toEqual(initialState.songsById);
     });
+    it('Update state on receive song', () => {
+      const action = actions.receiveSong('kiss', 'prince', 1, ['you don\'t have to be beautiful', 'to turn me on']);
+      const newObject = {
+        isFetching: false,
+        title: action.title,
+        artist: action.artist,
+        songId: action.songId,
+        receivedAt: action.receivedAt,
+        songArray: action.songArray,
+        arrayPosition: 0
+      };
+      expect(lyricChangeReducer(initialState.songsById, action)[action.songId])
+      .toEqual(newObject);
+    });
 
     it('Should update currently-displayed lyric of song', () => {
       expect(lyricChangeReducer(initialState.songsById, actions.nextLyric(2))[2].arrayPosition).toEqual(initialState.songsById[2].arrayPosition + 1);
